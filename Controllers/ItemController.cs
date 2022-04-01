@@ -12,12 +12,26 @@ public class ItemController : ControllerBase
 
     public ItemController()
     {
-        _repository = new InMemoryItems(); 
+        _repository = new InMemoryItems();
     }
 
     [HttpGet]
     public IEnumerable<Item> GetItems()
     {
         return _repository.GetItems();
+    }
+
+    [HttpGet("{itemId:guid}")]
+    public ActionResult<Item> GetItem(Guid itemId)
+    {
+        try
+        {
+            var item = _repository.GetItem(itemId);
+            return item;
+        }
+        catch
+        {
+            return NotFound();
+        }
     }
 }
