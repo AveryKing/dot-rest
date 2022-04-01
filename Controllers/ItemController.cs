@@ -1,3 +1,4 @@
+using DotRest2.Entities;
 using DotRest2.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,5 +13,11 @@ public class ItemController : ControllerBase
     public ItemController()
     {
         _repository = new InMemoryItems(); 
+    }
+
+    [HttpGet]
+    public IEnumerable<Item> GetItems()
+    {
+        return _repository.GetItems();
     }
 }
