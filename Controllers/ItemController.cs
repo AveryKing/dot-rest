@@ -19,22 +19,15 @@ public class ItemController : ControllerBase
     [HttpGet]
     public IEnumerable<ItemDto> GetItems()
     {
-        return _repository.GetItems().Select(item => new ItemDto
-        {
-            Id = item.Id,
-            Name = item.Name,
-            Price = item.Price,
-            CreatedDate = item.CreatedDate
-        });
+        return _repository.GetItems().Select(item => item.ToDto());
     }
 
     [HttpGet("{itemId:guid}")]
-    public ActionResult<Item> GetItem(Guid itemId)
+    public ActionResult<ItemDto> GetItem(Guid itemId)
     {
         try
         {
-            var item = _repository.GetItem(itemId);
-            return item;
+            return _repository.GetItem(itemId).ToDto();
         }
         catch
         {
