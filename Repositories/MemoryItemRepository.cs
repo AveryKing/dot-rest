@@ -2,7 +2,7 @@ using DotRest2.Entities;
 
 namespace DotRest2.Repositories;
 
-public class ItemRepository : IItemRepository
+public class MemoryItemRepository : IItemRepository
 {
     private readonly List<Item> _items = new()
     {

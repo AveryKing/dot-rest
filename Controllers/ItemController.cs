@@ -1,3 +1,4 @@
+using DotRest2.Data;
 using DotRest2.Entities;
 using DotRest2.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,15 @@ public class ItemController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<Item> GetItems()
+    public IEnumerable<ItemDto> GetItems()
     {
-        return _repository.GetItems();
+        return _repository.GetItems().Select(item => new ItemDto
+        {
+            Id = item.Id,
+            Name = item.Name,
+            Price = item.Price,
+            CreatedDate = item.CreatedDate
+        });
     }
 
     [HttpGet("{itemId:guid}")]
