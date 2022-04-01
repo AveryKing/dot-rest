@@ -8,11 +8,11 @@ namespace DotRest2.Controllers;
 [Route("items")]
 public class ItemController : ControllerBase
 {
-    private readonly InMemoryItems _repository;
+    private readonly IItemRepository _repository;
 
-    public ItemController()
+    public ItemController(IItemRepository repository)
     {
-        _repository = new InMemoryItems();
+        _repository = repository;
     }
 
     [HttpGet]
