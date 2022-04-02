@@ -50,4 +50,18 @@ public class ItemController : ControllerBase
         return CreatedAtAction(nameof(GetItem), new {itemId = item.Id}, item.ToDto());
     }
 
+    [HttpPut("{itemId:guid}")]
+    public object UpdateItem(Guid itemId, UpdateItemDto itemDto)
+    {
+        _repository.UpdateItem(itemId, new Item
+        {
+            Id = itemId,
+            Name = itemDto.Name,
+            CreatedDate = DateTimeOffset.UtcNow,
+            Price = itemDto.Price
+        });
+       return new { message = "success" };
+
+    }
+
 }
