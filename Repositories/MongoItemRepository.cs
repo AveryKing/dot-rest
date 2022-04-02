@@ -36,7 +36,9 @@ public class MongoItemRepository : IItemRepository
 
     public void UpdateItem(Guid id, Item item)
     {
-        throw new NotImplementedException();
+        var filter = _filterBuilder.Eq(x => x.Id, id);
+        _items.ReplaceOne(filter, item);
+
     }
 
     public void DeleteItem(Guid id)
