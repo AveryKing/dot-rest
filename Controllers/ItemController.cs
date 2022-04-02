@@ -47,8 +47,7 @@ public class ItemController : ControllerBase
             CreatedDate = DateTimeOffset.UtcNow
         };
         await _repository.CreateItemAsync(item);
-
-       
+        
         // ReSharper disable once Mvc.ActionNotResolved
         return CreatedAtAction(nameof(GetItemAsync), new {itemId = item.Id}, item.ToDto());
     }
