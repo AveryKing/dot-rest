@@ -51,7 +51,7 @@ public class ItemController : ControllerBase
     }
 
     [HttpPut("{itemId:guid}")]
-    public object UpdateItem(Guid itemId, UpdateItemDto itemDto)
+    public ActionResult UpdateItem(Guid itemId, UpdateItemDto itemDto)
     {
         _repository.UpdateItem(itemId, new Item
         {
@@ -60,8 +60,15 @@ public class ItemController : ControllerBase
             CreatedDate = DateTimeOffset.UtcNow,
             Price = itemDto.Price
         });
-       return new { message = "success" };
+        return NoContent();
 
+    }
+
+    [HttpDelete("{itemId:guid}")]
+    public ActionResult DeleteItem(Guid itemId)
+    {
+        _repository.DeleteItem(itemId);
+        return NoContent();
     }
 
 }

@@ -1,4 +1,5 @@
 using DotRest2.Entities;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace DotRest2.Repositories;
 
@@ -29,5 +30,10 @@ public class MemoryItemRepository : IItemRepository
     public void UpdateItem(Guid id, Item item)
     {
         _items[_items.FindIndex(x => x.Id == id)] = item;
+    }
+
+    public void DeleteItem(Guid id)
+    {
+        _items.Remove(GetItem(id));
     }
 }

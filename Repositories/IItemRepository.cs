@@ -8,4 +8,5 @@ public interface IItemRepository
     Item GetItem(Guid itemId);
     void CreateItem(Item item);
     void UpdateItem(Guid id, Item item);
+    void DeleteItem(Guid id);
 }
