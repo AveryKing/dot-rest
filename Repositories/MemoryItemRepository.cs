@@ -12,28 +12,32 @@ public class MemoryItemRepository : IItemRepository
         new Item {Id = Guid.NewGuid(), Name = "Car", Price = 25000, CreatedDate = DateTimeOffset.UtcNow},
     };
 
-    public IEnumerable<Item> GetItems()
+    public async Task<IEnumerable<Item>> GetItemsAsync()
     {
-        return _items;
+        return await Task.FromResult(_items);
     }
 
-    public Item GetItem(Guid itemId)
+    public async Task<Item> GetItemAsync(Guid itemId)
     {
-        return _items.Single(item => item.Id == itemId);
+        var item = _items.Single(item => item.Id == itemId);
+        return await Task.FromResult(item);
     }
 
-    public void CreateItem(Item item)
+    public async Task CreateItemAsync(Item item)
     {
         _items.Add(item);
-    }
-    
-    public void UpdateItem(Guid id, Item item)
-    {
-        _items[_items.FindIndex(x => x.Id == id)] = item;
+        await Task.CompletedTask;
     }
 
-    public void DeleteItem(Guid id)
+    public async Task UpdateItemAsync(Guid id, Item item)
     {
-        _items.Remove(GetItem(id));
+        var index = _items.FindIndex(x => x.Id == id);
+        var updatedItem = _items[index] = item;
+        await Task.CompletedTask;
+    }
+
+    public async Task DeleteItemAsync(Guid id)
+    {
+        _items.Remove(await GetItemAsync(id));
     }
 }

@@ -10,40 +10,40 @@ public class MongoItemRepository : IItemRepository
     private const string CollectionName = "items";
     private readonly IMongoCollection<Item> _items;
     private readonly FilterDefinitionBuilder<Item> _filterBuilder;
-    
+
     public MongoItemRepository(IMongoClient mongoClient)
     {
         var database = mongoClient.GetDatabase(DatabaseName);
         _items = database.GetCollection<Item>(CollectionName);
         _filterBuilder = Builders<Item>.Filter;
     }
-    
-    public void CreateItem(Item item) => _items.InsertOne(item);
-    
-    public IEnumerable<Item> GetItems()
+
+    public async Task CreateItemAsync(Item item)
     {
-        return _items.Find(new BsonDocument()).ToList();
+        await _items.InsertOneAsync(item);
     }
 
-    public Item GetItem(Guid itemId)
+    public async Task<IEnumerable<Item>> GetItemsAsync()
+    {
+        return await _items.Find(new BsonDocument()).ToListAsync();
+    }
+
+    public async Task<Item> GetItemAsync(Guid itemId)
     {
         var filter = _filterBuilder.Eq(item => item.Id, itemId);
-        return _items.Find(filter).SingleOrDefault();
+        return await _items.Find(filter).SingleOrDefaultAsync();
     }
 
 
-    
-
-    public void UpdateItem(Guid id, Item item)
+    public async Task UpdateItemAsync(Guid id, Item item)
     {
         var filter = _filterBuilder.Eq(x => x.Id, id);
-        _items.ReplaceOne(filter, item);
-
+        await _items.ReplaceOneAsync(filter, item);
     }
 
-    public void DeleteItem(Guid id)
+    public async Task DeleteItemAsync(Guid id)
     {
         var filter = _filterBuilder.Eq(item => item.Id, id);
-        _items.DeleteOne(filter);
+        await _items.DeleteOneAsync(filter);
     }
 }
