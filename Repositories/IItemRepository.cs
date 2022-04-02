@@ -4,9 +4,9 @@ namespace DotRest2.Repositories;
 
 public interface IItemRepository
 {
-    IEnumerable<Item> GetItems();
-    Item GetItem(Guid itemId);
-    void CreateItem(Item item);
-    void UpdateItem(Guid id, Item item);
-    void DeleteItem(Guid id);
+    Task<IEnumerable<Item>> GetItemsAsync();
+    Task<Item> GetItemAsync(Guid itemId);
+    Task CreateItemAsync(Item item);
+    Task UpdateItemAsync(Guid id, Item item);
+    Task DeleteItemAsync(Guid id);
 }
