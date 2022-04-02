@@ -20,4 +20,9 @@ public class MemoryItemRepository : IItemRepository
     {
         return _items.Single(item => item.Id == itemId);
     }
+
+    public void CreateItem(Item item)
+    {
+        _items.Add(item);
+    }
 }
