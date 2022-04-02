@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>  options.SuppressAsyncSuffixInActionNames = false );
 builder.Services.AddSingleton<IItemRepository, MongoItemRepository>();
 BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
 BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
@@ -20,7 +20,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-  //  app.UseSwagger();
+    //  app.UseSwagger();
     // app.UseSwaggerUI();
 }
 
