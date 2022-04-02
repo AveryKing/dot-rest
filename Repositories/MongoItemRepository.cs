@@ -43,6 +43,7 @@ public class MongoItemRepository : IItemRepository
 
     public void DeleteItem(Guid id)
     {
-        throw new NotImplementedException();
+        var filter = _filterBuilder.Eq(item => item.Id, id);
+        _items.DeleteOne(filter);
     }
 }
