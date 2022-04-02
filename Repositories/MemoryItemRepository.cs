@@ -25,4 +25,9 @@ public class MemoryItemRepository : IItemRepository
     {
         _items.Add(item);
     }
+    
+    public void UpdateItem(Guid id, Item item)
+    {
+        _items[_items.FindIndex(x => x.Id == id)] = item;
+    }
 }
