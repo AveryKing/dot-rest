@@ -6,4 +6,5 @@ public interface IItemRepository
 {
     IEnumerable<Item> GetItems();
     Item GetItem(Guid itemId);
+    void CreateItem(Item item);
 }
