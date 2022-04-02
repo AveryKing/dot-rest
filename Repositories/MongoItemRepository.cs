@@ -1,4 +1,5 @@
 using DotRest2.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace DotRest2.Repositories;
@@ -11,13 +12,15 @@ public class MongoItemRepository : IItemRepository
     
     public MongoItemRepository(IMongoClient mongoClient)
     {
-        IMongoDatabase database = mongoClient.GetDatabase(DatabaseName);
+        var database = mongoClient.GetDatabase(DatabaseName);
         _items = database.GetCollection<Item>(CollectionName);
     }
     
+    public void CreateItem(Item item) => _items.InsertOne(item);
+    
     public IEnumerable<Item> GetItems()
     {
-        throw new NotImplementedException();
+        return _items.Find(new BsonDocument()).ToList();
     }
 
     public Item GetItem(Guid itemId)
@@ -25,10 +28,8 @@ public class MongoItemRepository : IItemRepository
         throw new NotImplementedException();
     }
 
-    public void CreateItem(Item item)
-    {
-        _items.InsertOne(item);
-    }
+
+    
 
     public void UpdateItem(Guid id, Item item)
     {
